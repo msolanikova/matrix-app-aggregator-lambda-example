@@ -1,0 +1,26 @@
+{
+    "version": "0.2.0",
+    "configurations": [{
+            "name": "Debug Dashboard",
+            "type": "node",
+            "request": "attach",
+            "address": "localhost",
+            "port": 5858,
+            "localRoot": "${workspaceRoot}/metrics-dashboard",
+            "remoteRoot": "/var/task",
+            "protocol": "inspector",
+            "stopOnEntry": false
+        },
+        {
+            "name": "Debug Team Detail",
+            "type": "node",
+            "request": "attach",
+            "address": "localhost",
+            "port": 5858,
+            "localRoot": "${workspaceRoot}/metrics-team-detail",
+            "remoteRoot": "/var/task",
+            "protocol": "inspector",
+            "stopOnEntry": false
+        }
+    ]
+}

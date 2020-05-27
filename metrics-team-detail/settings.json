@@ -1,0 +1,244 @@
+{
+  "port": 3001,
+  "jiraBackendUrl": "http://52.59.193.15:3000",
+  "githubBackendUrl": "http://52.59.193.15:3002",
+  "teams": [
+    {
+      "teamName": "Cap",
+      "jiraBoardId": 2,
+      "members": [
+        {
+          "name": "Ondrej Matija",
+          "githubUsername": "omatija",
+          "jiraUsername": "ondrej.matija",
+          "jiraAccountId": "557058:7b3c8ca8-3e85-45be-b524-678e7b9e0d37"
+        },
+        {
+          "name": "Veronika Haskova",
+          "githubUsername": "koscovicka",
+          "jiraUsername": "veronika.haskova",
+          "jiraAccountId":"5cebabb1cf8a1a0fc46a6b3a"
+        },
+        {
+          "name": "Marketa Solanikova",
+          "githubUsername": "msolanikova",
+          "jiraUsername": "marketa.solanikova",
+          "jiraAccountId":"557058:eb945e21-8d60-46db-af22-c2021f2c7517"
+        },
+        {
+          "name": "Csaba Komives",
+          "githubUsername": "csaba8",
+          "jiraUsername": "csaba.komives",
+          "jiraAccountId":"5e08c022800be30d9fb95cc1"
+        },
+        {
+          "name": "Miroslav Valigura",
+          "githubUsername": "valiguram",
+          "jiraUsername": "miroslav.valigura",
+          "jiraAccountId":"557058:2c98c109-9dc7-46bc-b4b7-b822a26e56de"
+        },
+        {
+          "name": "Everybody Shared",
+          "githubUsername": "eshared",
+          "jiraUsername": "sharedAccount",
+          "jiraAccountId":"5e70df4024d7570c343ab3bb"
+        }
+      ]
+    },
+    {
+      "teamName": "Jp",
+      "jiraBoardId": 6,
+      "members": [
+        {
+          "name": "Ondrej Matija",
+          "githubUsername": "omatija",
+          "jiraUsername": "ondrej.matija",
+          "jiraAccountId": "557058:7b3c8ca8-3e85-45be-b524-678e7b9e0d37"
+        },
+        {
+          "name": "Veronika Haskova",
+          "githubUsername": "koscovicka",
+          "jiraUsername": "veronika.haskova",
+          "jiraAccountId":"5cebabb1cf8a1a0fc46a6b3a"
+        },
+        {
+          "name": "Marketa Solanikova",
+          "githubUsername": "msolanikova",
+          "jiraUsername": "marketa.solanikova",
+          "jiraAccountId":"557058:eb945e21-8d60-46db-af22-c2021f2c7517"
+        },
+        {
+          "name": "Csaba Komives",
+          "githubUsername": "csaba8",
+          "jiraUsername": "csaba.komives",
+          "jiraAccountId":"5e08c022800be30d9fb95cc1"
+        },
+        {
+          "name": "Miroslav Valigura",
+          "githubUsername": "valiguram",
+          "jiraUsername": "miroslav.valigura",
+          "jiraAccountId":"557058:2c98c109-9dc7-46bc-b4b7-b822a26e56de"
+        },
+        {
+          "name": "Everybody Shared",
+          "githubUsername": "eshared",
+          "jiraUsername": "sharedAccount",
+          "jiraAccountId":"5e70df4024d7570c343ab3bb"
+        }
+      ]
+    },
+    {
+      "teamName": "Ninjas",
+      "jiraBoardId": 1,
+      "members": [
+        {
+          "name": "Lukas Orgovan",
+          "githubUsername": "lorgovan",
+          "jiraUsername": "lukas.orgovan"
+        },
+        {
+          "name": "Tomas Igrini",
+          "githubUsername": "tigrini",
+          "jiraUsername": "tomas.igrini"
+        }
+      ]
+    },
+    {
+      "teamName": "Githubers",
+      "jiraBoardId": 3,
+      "members": [
+        {
+          "name": "Rudolf Repcin",
+          "githubUsername": "rudolf-repcin",
+          "jiraUsername": "rudolf.repcin"
+        }
+      ]
+    },
+    {
+      "teamName": "South Thunder",
+      "jiraBoardId": 2,
+      "members": [
+        {
+          "name": "Ondrej Matija",
+          "githubUsername": "omatija",
+          "jiraUsername": "ondrej.matija",
+          "jiraAccountId": "557058:7b3c8ca8-3e85-45be-b524-678e7b9e0d37"
+        },
+        {
+          "name": "Veronika Haskova",
+          "githubUsername": "koscovicka",
+          "jiraUsername": "veronika.haskova",
+          "jiraAccountId":"5cebabb1cf8a1a0fc46a6b3a"
+        },
+        {
+          "name": "Marketa Solanikova",
+          "githubUsername": "msolanikova",
+          "jiraUsername": "marketa.solanikova",
+          "jiraAccountId":"557058:eb945e21-8d60-46db-af22-c2021f2c7517"
+        },
+        {
+          "name": "Csaba Komives",
+          "githubUsername": "csaba8",
+          "jiraUsername": "csaba.komives",
+          "jiraAccountId":"5e08c022800be30d9fb95cc1"
+        },
+        {
+          "name": "Miroslav Valigura",
+          "githubUsername": "valiguram",
+          "jiraUsername": "miroslav.valigura",
+          "jiraAccountId":"557058:2c98c109-9dc7-46bc-b4b7-b822a26e56de"
+        }
+      ]
+    },
+    {
+      "teamName": "Vikings",
+      "jiraBoardId": 1,
+      "members": [
+        {
+          "name": "Lukas Orgovan",
+          "githubUsername": "lorgovan",
+          "jiraUsername": "lukas.orgovan"
+        },
+        {
+          "name": "Tomas Igrini",
+          "githubUsername": "tigrini",
+          "jiraUsername": "tomas.igrini"
+        }
+      ]
+    },
+    {
+      "teamName": "Lake Summit",
+      "jiraBoardId": 3,
+      "members": [
+        {
+          "name": "Rudolf Repcin",
+          "githubUsername": "rudolf-repcin",
+          "jiraUsername": "rudolf.repcin"
+        }
+      ]
+    },
+    {
+      "teamName": "Flyers",
+      "jiraBoardId": 2,
+      "members": [
+        {
+          "name": "Ondrej Matija",
+          "githubUsername": "omatija",
+          "jiraUsername": "ondrej.matija",
+          "jiraAccountId": "557058:7b3c8ca8-3e85-45be-b524-678e7b9e0d37"
+        },
+        {
+          "name": "Veronika Haskova",
+          "githubUsername": "koscovicka",
+          "jiraUsername": "veronika.haskova",
+          "jiraAccountId":"5cebabb1cf8a1a0fc46a6b3a"
+        },
+        {
+          "name": "Marketa Solanikova",
+          "githubUsername": "msolanikova",
+          "jiraUsername": "marketa.solanikova",
+          "jiraAccountId":"557058:eb945e21-8d60-46db-af22-c2021f2c7517"
+        },
+        {
+          "name": "Csaba Komives",
+          "githubUsername": "csaba8",
+          "jiraUsername": "csaba.komives",
+          "jiraAccountId":"5e08c022800be30d9fb95cc1"
+        },
+        {
+          "name": "Miroslav Valigura",
+          "githubUsername": "valiguram",
+          "jiraUsername": "miroslav.valigura",
+          "jiraAccountId":"557058:2c98c109-9dc7-46bc-b4b7-b822a26e56de"
+        }
+      ]
+    },
+    {
+      "teamName": "Stormers",
+      "jiraBoardId": 1,
+      "members": [
+        {
+          "name": "Lukas Orgovan",
+          "githubUsername": "lorgovan",
+          "jiraUsername": "lukas.orgovan"
+        },
+        {
+          "name": "Tomas Igrini",
+          "githubUsername": "tigrini",
+          "jiraUsername": "tomas.igrini"
+        }
+      ]
+    },
+    {
+      "teamName": "North Winds",
+      "jiraBoardId": 3,
+      "members": [
+        {
+          "name": "Rudolf Repcin",
+          "githubUsername": "rudolf-repcin",
+          "jiraUsername": "rudolf.repcin"
+        }
+      ]
+    }
+  ]
+}

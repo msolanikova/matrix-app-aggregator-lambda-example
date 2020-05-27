@@ -1,0 +1,26 @@
+{
+  "name": "matrix-app-aggregator-team-detail",
+  "version": "1.0.0",
+  "description": "Middleware aggregating team detail data from multiple backends to provide right data for UI",
+  "main": "dashboard.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://github.com/msolanikova/matrix-app-aggregator-lambda-example#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/msolanikova/matrix-app-aggregator-lambda-example.git"
+  },
+  "bugs": {
+    "url": "https://github.com/msolanikova/matrix-app-aggregator-lambda-example/issues"
+  },
+  "dependencies": {
+    "axios": "0.19.2"
+  },
+  "devDependencies": {
+    "eslint": "6.8.0"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "name": "matrix-app-aggregator-dynamodb",
+  "version": "1.0.0",
+  "description": "Example of reading from dynamodb",
+  "main": "dynamodb-read.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://github.com/msolanikova/matrix-app-aggregator-lambda-example#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/msolanikova/matrix-app-aggregator-lambda-example.git"
+  },
+  "bugs": {
+    "url": "https://github.com/msolanikova/matrix-app-aggregator-lambda-example/issues"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.652.0",
+    "uuid": "^7.0.3"
+  },
+  "devDependencies": {
+    "eslint": "6.8.0"
+  }
+}

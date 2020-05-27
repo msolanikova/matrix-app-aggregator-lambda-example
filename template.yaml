@@ -1,0 +1,278 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  metrics-app-aggregator-dev
+
+  Aggregator REST API for Metrics App
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 15
+    Runtime: nodejs12.x
+
+Parameters:
+  Stage:
+    Type: String
+    Default: dev
+  release:
+    Type: String
+    Default: dev
+
+Resources:
+  AggregatorApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: !Ref Stage
+      Cors: # necessary only for endpoints accessible from UI
+        AllowMethods: "'POST, GET, HEAD, OPTIONS, PUT, DELETE'"
+        AllowHeaders: "'X-Forwarded-For,Authorization,Content-Type,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'"
+        AllowOrigin: "'*'"
+        MaxAge: "'600'"
+      Auth:
+        Authorizers:
+          MyAuthorizer:
+            UserPoolArn: arn:aws:cognito-idp:eu-central-1:435397969238:userpool/eu-central-1_EKP1xxXA5
+            Identity:
+              Header: Authorization
+              ReauthorizeEvery: 600
+        #DefaultAuthorizer: MyAuthorizer # if all endpoints should be authorized
+  GatewayResponseDefault4XX:
+    Type: 'AWS::ApiGateway::GatewayResponse'
+    Properties:
+      ResponseParameters:
+        gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+        gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+        gatewayresponse.header.Access-Control-Allow-Methods: "'DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT'"
+      ResponseType: DEFAULT_4XX
+      ResponseTemplates:
+        application/json: "{\"error\": $context.error.messageString}"
+      RestApiId:
+        Ref: AggregatorApi
+  GatewayResponseAuthorizerFailure:
+    Type: 'AWS::ApiGateway::GatewayResponse'
+    Properties:
+      ResponseParameters:
+        gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+        gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+        gatewayresponse.header.Access-Control-Allow-Methods: "'DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT'"
+      ResponseType: AUTHORIZER_FAILURE
+      ResponseTemplates:
+        application/json: "{\"error\": $context.error.messageString}"
+      RestApiId:
+        Ref: AggregatorApi
+  GatewayResponseDefault5XX:
+    Type: 'AWS::ApiGateway::GatewayResponse'
+    Properties:
+      ResponseParameters:
+        gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+        gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+        gatewayresponse.header.Access-Control-Allow-Methods: "'DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT'"
+      ResponseType: DEFAULT_5XX
+      ResponseTemplates:
+        application/json: "{\"error\": $context.error.messageString}"
+      RestApiId:
+        Ref: AggregatorApi
+  DashboardFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      FunctionName: !Sub "${AWS::StackName}-dashboard"
+      CodeUri: metrics-dashboard/
+      Handler: dashboard.handler
+      Events:
+        dashboard:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /dashboard
+            Method: get
+            RestApiId:
+              Ref: AggregatorApi
+  TeamDetailFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      FunctionName: !Sub "${AWS::StackName}-team-detail"
+      CodeUri: metrics-team-detail/
+      Handler: teamdetail.handler
+      Events:
+        teamDetail:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /team-detail
+            Method: get
+            RestApiId:
+              Ref: AggregatorApi
+  SecuredBackendFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      FunctionName: !Sub "${AWS::StackName}-secured-backend"
+      CodeUri: metrics-secured-backend/
+      Handler: secured-backend.handler
+      Events:
+        securedBackend:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /secured-backend
+            Method: get
+            RestApiId:
+              Ref: AggregatorApi
+            Auth:
+              Authorizer: MyAuthorizer
+  DynamoDBReadFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      FunctionName: !Sub "${AWS::StackName}-dynamodb-read"
+      CodeUri: metrics-dynamodb/
+      Handler: dynamodb-read.handler
+      Policies:
+        # Give DynamoDB Full Access to your Lambda Function
+        - AmazonDynamoDBFullAccess
+      Events:
+        dynamoRead:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /dynamodb-read
+            Method: get
+            RestApiId:
+              Ref: AggregatorApi
+  DynamoDBWriteFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      FunctionName: !Sub "${AWS::StackName}-dynamodb-write"
+      CodeUri: metrics-dynamodb/
+      Handler: dynamodb-write.handler
+      Policies:
+        # Give DynamoDB Full Access to your Lambda Function
+        - AmazonDynamoDBFullAccess
+      Environment:
+        Variables:
+          stage: !Ref Stage
+      Events:
+        dynamoWrite:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /dynamodb-write
+            Method: post
+            RestApiId:
+              Ref: AggregatorApi
+  CollectorFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      FunctionName: !Sub "${AWS::StackName}-collector"
+      CodeUri: metrics-collector/
+      Handler: collector.handler
+      Policies:
+        # Give DynamoDB Full Access to your Lambda Function
+        - AmazonDynamoDBFullAccess
+      Environment:
+        Variables:
+          stage: !Ref Stage
+      Events:
+        CollectorEvent:
+          Type: Schedule
+          Properties:
+            Name: !Sub "${AWS::StackName}-collector-event"
+            Enabled: False
+            Schedule: cron(0/5 * * * ? *)
+  CommonLibUsageFn:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      FunctionName: !Sub "${AWS::StackName}-common-lib-usage"
+      CodeUri: metrics-common-lib-usage/
+      Handler: common-lib-usage.handler
+      Policies:
+        - S3CrudPolicy:
+            BucketName: "metrics-app"
+      Events:
+        commonLibUsage:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /common-lib-usage
+            Method: get
+            RestApiId:
+              Ref: AggregatorApi
+  CreateUserFn:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      FunctionName: !Sub "${AWS::StackName}-create-user"
+      CodeUri: metrics-create-user/
+      Handler: create-user.handler
+      Policies:
+        - AmazonCognitoPowerUser
+      Events:
+        createUser:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /create-user
+            Method: get
+            RestApiId:
+              Ref: AggregatorApi
+            Auth:
+              Authorizer: MyAuthorizer
+
+  DynamoDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: username
+          AttributeType: S
+        - AttributeName: day
+          AttributeType: S
+      KeySchema:
+        - AttributeName: username
+          KeyType: HASH
+        - AttributeName: day
+          KeyType: RANGE
+      TableName: !Sub
+        - "${stage}-client1-activedays"
+        - {stage: !Ref Stage}
+  DynamoDBTestDataTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: timestamp
+          AttributeType: N
+      KeySchema:
+        - AttributeName: timestamp
+          KeyType: HASH
+      TableName: !Sub
+        - "${stage}-client1-collecteddata"
+        - {stage: !Ref Stage}
+
+Outputs:
+  AggregatorApi:
+    Description: "API Gateway endpoint URL for aggregator functions"
+    Value: !Sub
+      - "https://${AggregatorApi}.execute-api.${AWS::Region}.amazonaws.com/${Stage}"
+      - {Stage: !Ref Stage}
+  DashboardFunction:
+    Description: "Dashboard Lambda Function ARN"
+    Value: !GetAtt DashboardFunction.Arn
+  DashboardFunctionIamRole:
+    Description: "Implicit IAM Role created for TeamDetail function"
+    Value: !GetAtt DashboardFunctionRole.Arn
+  TeamDetailFunction:
+    Description: "Team Detail Lambda Function ARN"
+    Value: !GetAtt TeamDetailFunction.Arn
+  TeamDetailFunctionIamRole:
+    Description: "Implicit IAM Role created for Team Detail function"
+    Value: !GetAtt TeamDetailFunctionRole.Arn
+  SecuredBackendFunction:
+    Description: "Secured Backend Lambda Function ARN"
+    Value: !GetAtt SecuredBackendFunction.Arn
+  SecuredBackendFunctionIamRole:
+    Description: "Implicit IAM Role created for Secured Backend function"
+    Value: !GetAtt SecuredBackendFunctionRole.Arn
+  DynamoDBReadFunction:
+    Description: "DynamoDB Read Lambda Function ARN"
+    Value: !GetAtt DynamoDBReadFunction.Arn
+  DynamoDBReadFunctionIamRole:
+    Description: "Implicit IAM Role created for DynamoDB Read function"
+    Value: !GetAtt DynamoDBReadFunctionRole.Arn
+  DynamoDBWriteFunction:
+    Description: "DynamoDB Write Lambda Function ARN"
+    Value: !GetAtt DynamoDBWriteFunction.Arn
+  DynamoDBWriteFunctionIamRole:
+    Description: "Implicit IAM Role created for DynamoDB Write function"
+    Value: !GetAtt DynamoDBWriteFunctionRole.Arn

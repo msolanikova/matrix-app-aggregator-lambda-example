@@ -1,0 +1,27 @@
+{
+  "name": "matrix-app-aggregator-create-user",
+  "version": "1.0.0",
+  "description": "Backend that creates new users",
+  "main": "create-user.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://github.com/msolanikova/matrix-app-aggregator-lambda-example#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/msolanikova/matrix-app-aggregator-lambda-example.git"
+  },
+  "bugs": {
+    "url": "https://github.com/msolanikova/matrix-app-aggregator-lambda-example/issues"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^8.5.1",
+    "aws-sdk": "^2.664.0"
+  },
+  "devDependencies": {
+    "eslint": "6.8.0"
+  }
+}
